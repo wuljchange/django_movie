@@ -1,0 +1,282 @@
+{% extends 'movies/base.html' %}
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block body %}
+    <div id="movie-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="{{ movie.cover.url }}" class="img-responsive">
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12" style="margin-bottom:30px;">
+                            <h1 class="col-sm-8 text-center"><strong>{{ movie.title }}</strong></h1>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">导演:</h>
+                            <span class="new-for-2-span">
+                                {% for director in movie.director.all %}
+                                <a class="navbar-brand" style="font-size:20px;" href="{% url 'movies:person-detail' director.id %}">{{ director }}</a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">主演:</h>
+                            <span class="new-for-2-span">
+                                {% for actor in movie.key_actors.all %}
+                                <a class="navbar-brand" style="font-size:20px;" href="{% url 'movies:person-detail' actor.id %}">{{ actor }}</a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">类型:</h>
+                            <span class="new-for-2-span">
+                                {% for genre in movie.genres.all %}
+                                <a class="navbar-brand" style="font-size:20px;" href="{% url 'movies:genre-search' genre.id %}">{{ genre }}</a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">国家/地区:</h>
+                            <span class="new-for-span">
+                                {% for country in movie.production_countries.all %}
+                                <a class="navbar-brand" style="font-size:20px;" href="{% url 'movies:country-search' country.id %}">{{ country }}</a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">上映日期:</h>
+                            <span class="navbar-brand new-span" style="font-size:20px;">{{ movie.year }}</span>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">影片时长:</h>
+                            <span class="navbar-brand new-span" style="font-size:20px;">{{ movie.duration }}</span>
+                        </div>
+                        <div>
+                            <h style="margin-right:30px;font-size:20px;color:#5B5B5B">影片评分:</h>
+                            <span class="navbar-brand new-span" style="font-size:20px;">{{ movie.rating }}</span>
+                        </div>
+                        <br><br>
+                        {% if user.is_authenticated %}
+                        <div id="new-form" class="form-inline" style="float:right;">
+                            <button id="likes" style="margin-right:5px;" class="btn btn-light" data-id="{{ movie.id }}" data-l="{{ is_in_likes }}"><i id="new-likes" class="fa fa-x fa-fw fa-heart text-muted umbs-up"></i>收藏 <span id="like-count">{{ movie.likes }}</span></button>
+                            <button id="add_to_favourites" style="margin-right:5px;" data-id="{{ movie.id }}" data-f="{{ is_in_favourites }}" class="btn btn-light"><i id="new-favourites" class="fa fa-x fa-thumbs-o-up text-muted" aria-hidden="true"></i>喜欢 <span id="favourite-count">{{ movie.favourites }}</span></button>
+                            <button id="add_to_watch_list" data-id="{{ movie.id }}" data-w="{{ is_in_watch_list }}" class="btn btn-light"><i id="new-watch" class="fa fa-x fa-eye text-muted" aria-hidden="true"></i>加入观看 <span id="watch-count">{{ movie.watches }}</span></button>
+                        </div>
+                        {% else %}
+                        <div class="form-inline" style="float:right;">
+                            <a href="{% url 'movies:login-user' %}">
+                                <button style="margin-right:5px;" class="btn btn-light" data-id="{{ movie.id }}" data-l="{{ is_in_likes }}"><i class="fa fa-x fa-fw fa-heart text-muted umbs-up"></i>收藏 <span>{{ movie.likes }}</span></button>
+                            </a>
+                            <a href="{% url 'movies:login-user' %}">
+                                <button style="margin-right:5px;" data-id="{{ movie.id }}" data-f="{{ is_in_favourites }}" class="btn btn-light"><i class="fa fa-x fa-thumbs-o-up text-muted" aria-hidden="true"></i>喜欢 <span>{{ movie.favourites }}</span></button>
+                            </a>
+                            <a href="{% url 'movies:login-user' %}">
+                                <button data-id="{{ movie.id }}" data-w="{{ is_in_watch_list }}" class="btn btn-light"><i class="fa fa-x fa-eye text-muted" aria-hidden="true"></i>加入观看 <span>{{ movie.watches }}</span></button>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                    <div>
+                        <h2>电影简介</h2>
+                        <p>{{ movie.description }}</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+            <div id="movie-screen">
+                {% if movie.trailer == "http://test.com" %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{{ movie.link_to_watch }}" allowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div>
+                    <div>
+                        <span class="navbar-brand">抱歉！该电影本站只支持观看预告片</span>
+                        <span style="float:right;"><a class="navbar-brand" href="{{ movie.link_to_watch }}">VIP完整视频链接</a></span>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe src="{{ movie.trailer }}" allowfullscreen="true"></iframe>
+                    </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div id="comment" style="margin-top:40px;">
+                <div id="comment-header">
+                    <span class="navbar-brand new-brand">{{ movie.title }}的短评......(<a href="#">全部{{ numbers }}条</a>)</span>
+                    {% if user.is_authenticated %}
+                    <span class="navbar-brand new-brand btn btn-link" style="float:right;" data-toggle="modal" data-target="#comment-modal1">快来写点啥吧!</span>
+                    <div class="modal fade" id="comment-modal1" tabindex="-1" role="dialog" aria-labelledby="comment-modal1Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="comment-modal1LongTitle">写短评</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                    <div class="modal-body">
+                                        <form method="post" class="form">
+                                            {% csrf_token %}
+                                            <div class="form-group form-inline" style="margin-top:15px;">
+                                                <label class="col-form-label">我要打分:</label>
+                                                <ul id="new-star" style="margin-top:15px;">
+                                                    <li style="display:inline;margin-right:2px;"><i class="fa fa-x fa-star-o" aria-hidden="true"></i></li>
+                                                    <li style="display:inline;margin-right:2px;"><i class="fa fa-x fa-star-o" aria-hidden="true"></i></li>
+                                                    <li style="display:inline;margin-right:2px;"><i class="fa fa-x fa-star-o" aria-hidden="true"></i></li>
+                                                    <li style="display:inline;margin-right:2px;"><i class="fa fa-x fa-star-o" aria-hidden="true"></i></li>
+                                                    <li style="display:inline;margin-right:2px;"><i class="fa fa-x fa-star-o" aria-hidden="true"></i></li>
+                                                </ul>
+                                                <span id="star-grade" class="col-form-label"></span>
+                                                <input id="input-grade" name="grade" style="display:none;" class="col-form-label" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">简短评论:</label>
+                                                <label for="message-text" class="col-form-label" style="float:right">限制1000字</label>
+                                                <textarea class="form-control" id="message-text" name="message-text"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" style="float:right;">提交</button>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a class="navbar-brand new-brand btn btn-link" style="float:right;" href="{% url 'movies:login-user' %}">快来写点啥吧!</a>
+                    {% endif %}
+                </div>
+                <div style="margin-top:10px;">
+                    <nav aria-label="breadcrumb" style="width:100%;">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><button id="most-hot" class="btn btn-link" onclick="show('hot')">最热</button></li>
+                            <li class="breadcrumb-item"><button id="most-new" class="btn btn-link" onclick="show('new')">最新</button></li>
+                        </ol>
+                    </nav>
+                </div>
+                {% if new_comments %}
+                <div id="comment-body-hot">
+                    {% for comment in hot_comments %}
+                    <hr style="margin-bottom:5px;margin-top:10px;">
+                    <div id="real-comment-header-hot" style="margin-bottom:3px;">
+                        <span class="navbar-brand" style="font-size:15px;">{{ comment.author.username }} {{ comment.date_time }}</span>
+                        <span class="navbar-brand" style="font-size:15px;color:#FF8000;margin-left:5px;">评分: {{ comment.grade }}</span>
+                        <span class="navbar-brand" style="font-size:15px;float:right;">
+                            <button id="hot-up-{{ comment.id }}" class="btn btn-link" onclick="vote(this)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button><span id="hot-ups{{ comment.id }}">{{ comment.up_votes }}</span>
+                            <button id="hot-down-{{ comment.id }}" class="btn btn-link" onclick="vote(this)"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button><span id="hot-downs{{ comment.id }}">{{ comment.down_votes }}</span>
+                        </span>
+                    </div>
+                    <div id="real-comment-body-hot">
+                        <p>{{ comment.content }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div id="comment-body-new" style="display:none;">
+                    {% for comment in new_comments %}
+                    <hr style="margin-bottom:5px;margin-top:10px;">
+                    <div id="real-comment-header-new" style="margin-bottom:3px;">
+                        <span class="navbar-brand" style="font-size:15px;">{{ comment.author.username }} {{ comment.date_time }}</span>
+                        <span class="navbar-brand" style="font-size:15px;color:#FF8000;margin-left:5px;">评分: {{ comment.grade }}</span>
+                        <span class="navbar-brand" style="font-size:15px;float:right;">
+                            <button id="new-up-{{ comment.id }}" class="btn btn-link" onclick="vote(this)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button><span id="new-ups{{ comment.id }}">{{ comment.up_votes }}</span>
+                            <button id="new-down-{{ comment.id }}" class="btn btn-link" onclick="vote(this)"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button><span id="new-downs{{ comment.id }}">{{ comment.up_votes }}</span>
+                        </span>
+                    </div>
+                    <div id="real-comment-body-new">
+                        <p>{{ comment.content }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div style="text-align:center;">
+                    <p>该电影还没有任何评论，赶快抢沙发吧!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+<script>
+    function vote(obj) {
+        if ('{{ user.is_authenticated }}' == 'True'){
+            var ids = new Array();
+            ids = obj.id.split('-');
+            var comment_id = ids[2];
+            var choice = ids[1];
+            var id = ids[0]+"-"+choice+"s"+comment_id
+            var sp = document.getElementById(id)
+            var ul = "/comment/"+comment_id+"/"+choice;
+            $.ajax({
+                url: ul,
+                type: "get",
+                dataType: "json",
+                success: function(data){
+                    if (data.res == "done"){
+                        alert("你已经对该评论投过票了!");
+                    }else{
+                        var vote = Number(sp.innerText);
+                        sp.innerText = String(vote+1);
+                    }
+                },
+                error: function(data){
+                    alert("error");
+                },
+            });
+        }else{
+            alert('please login first!');
+        }
+    }
+
+    function show(txt) {
+        if (txt == 'hot'){
+            document.getElementById('comment-body-hot').style.display="block";
+            document.getElementById('comment-body-new').style.display="none";
+        }else{
+            document.getElementById('comment-body-hot').style.display="none";
+            document.getElementById('comment-body-new').style.display="block";
+        }
+    }
+
+    window.onload = function(){
+        var star = document.getElementById("new-star");
+		var star_li = star.getElementsByTagName("li");
+		var star_word = document.getElementById("star-grade");
+		var new_star_word = document.getElementById("input-grade");
+	    var i=0;
+	    var len = star_li.length;
+	    var word = [' 很差',' 差',' 一般',' 推荐',' 力荐'];
+	    var new_grade = [2, 4, 6, 8, 10];
+	    for(i=0; i<len; i++)
+	    {
+		    star_li[i].index = i;
+			star_li[i].onmouseover = function(){
+		        star_word.style.display = "block";
+		        star_word.innerHTML = word[this.index];
+		        new_star_word.value = new_grade[this.index];
+		        for(i=0; i<=this.index; i++){
+			        star_li[i].className = "text-danger";
+		        }
+				for(i=this.index+1; i<len; i++){
+					star_li[i].className = "text-muted";
+				}
+	        }
+	    }
+    }
+</script>
+{% endblock %}

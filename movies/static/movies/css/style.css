@@ -1,0 +1,88 @@
+body {
+    width:100%;
+    height:100%;
+    #background: url("../images/new-bj4.jpg");
+    #background-size:100%;
+}
+.img-responsive {
+    width: 290px;
+    height: 440px;
+}
+.new-card-text {
+    margin-bottom:2px;
+    font-size:15px;
+}
+.new-brand {
+    font-size:18px;
+}
+.new-span {
+    margin-left:50px;
+}
+.new-for-span {
+    margin-left:40px;
+}
+.new-for-2-span {
+    margin-left:86px;
+}
+
+.user-profile-background {
+    width:100%;
+    height:100px;
+    background: url("../images/user_background.jpg")
+}
+.base-header-nav {
+    width:100%;
+    height:30px;
+}
+.base-font-size {
+    font-size:15px;
+}
+.base-drop {
+    min-width:100px;
+    height:78px;
+}
+.base-search {
+    height:85px;
+}
+.base-position {
+    margin-right:auto;
+    margin-left:auto;
+}
+.base-logo {
+    margin-right:25px;
+}
+.base-form {
+    width:250px;
+}
+.base-content {
+    margin-top:20px;
+    min-height:800px;
+}
+.base-footer-h {
+    margin-bottom:5px;
+}
+.base-footer-s1 {
+    font-size:15px;
+}
+.base-footer-s2 {
+    font-size:15px;
+    float:right;
+}
+.login-card {
+    width:350px;height:350px;margin-left:auto;margin-right:auto;
+}
+.register-card {
+    width:350px;height:450px;margin-left:auto;margin-right:auto;
+}
+.new-center {
+    margin-top:auto;margin-bottom:auto;margin-left:auto;margin-right:auto;
+}
+.user-profile-image {
+    margin-left:auto;margin-right:auto;width:60px;height:84px;
+}
+.user-image {
+    margin-top:10px;width:60px;height:60px;
+}
+.movie-count-1 {
+    margin-bottom:10px;
+}

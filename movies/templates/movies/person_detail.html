@@ -1,0 +1,69 @@
+{% extends 'movies/base.html' %}
+{% block title %}{{ person }}{% endblock %}
+
+
+{% block body %}
+    <div id="person-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="{{ person.photo.url }}" class="img-responsive">
+                </div>
+                <div class="col-sm-8" style="margin-top:50px;">
+                    <div class="col-sm-12">
+                        <h1>{{ person.last_name }} {{ person.first_name }}</h1>
+                        <h5>{{ roles }}</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h3>出生日期:</h3>
+                            </div>
+                            <div class="col-sm-7">
+                                <h4>{{ person.date_of_birth }}</h4>
+                            </div>
+                        </div>
+                        {% if person.date_of_death %}
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h3>逝世日期:</h3>
+                                </div>
+                                <div class="col-sm-7">
+                                    <h4>{{ person.date_of_death }}</h4>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h3>国家/地区:</h3>
+                            </div>
+                            <div class="col-sm-7">
+                                <a href="{% url 'movies:country-search' person.country.id %}" class="navbar-brand">{{ person.country }}</a>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                    <div>
+                        <h2>个人简介</h2>
+                        <p>{{ person.description }}</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if movies %}
+    <div class="container">
+        <div class="row">
+            <h2 style="margin-left:15px;">相关电影</h2>
+        </div>
+    </div>
+    {% endif %}
+    {% include 'movies/movie_index_template.html' %}
+
+{% endblock %}

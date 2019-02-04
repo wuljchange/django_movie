@@ -1,0 +1,18 @@
+{% extends 'movies/base.html' %}
+
+{% block body %}
+    <br>
+    {% if movies %}
+        <h3 class="col-sm-12 text-center" style="font-family: 'Boogaloo', cursive; font-size: 40px"><strong><u>Recommended for you:</u></strong></h3>
+
+        {% include 'movies/movie_index_template.html' %}
+    {% else %}
+        <div class="container">
+        <br><br><br><br><br><br><br><br>
+            <h3 class="col-sm-12 text-center" style="font-family: 'Boogaloo', cursive; font-size: 40px">
+                <strong>Can't recommend you anything yet<br>
+                    Add some movies to favourites and we will start :)
+                </strong></h3>
+        </div>
+    {% endif %}
+{% endblock %}

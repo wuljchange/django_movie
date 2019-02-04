@@ -1,0 +1,40 @@
+{% extends 'movies/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <br><br><br><br>
+    <div id="register">
+        <div class="container">
+            <div>
+                <div class="card register-card">
+                    <div class="new-center">
+                    <div id="register-body">
+                        <h3>注册账户</h3>
+                        {% if error_message %}
+                            <div class="col-sx-12">
+                                <p class="text-danger col-sm-offset-2 col-sm-8">
+                                    <strong>{{ error_message }}</strong>
+                                </p>
+                            </div>
+                        {% endif %}
+                        <form role="form" action="{% url 'movies:register' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% include 'movies/form_template.html' %}
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        Already have an account? <a href="{% url 'movies:login-user' %}">Click here</a> to log in.
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

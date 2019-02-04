@@ -1,0 +1,38 @@
+{% extends 'movies/base.html' %}
+
+{% block body %}
+<div class="container">
+    <div id="movie-header">
+        <div class="container">
+            <div id="cover-header" style="text-align:center;">
+                <img src="../static/movies/images/cover.jpg" style="height:200px;width:100%;margin-bottom:20px;"/>
+            </div>
+            <div id="recommend">
+                <h style="font-size:18px;margin-right:10px;">推荐</h>
+                <a class="navbar-brand" style="font-size:15px;" href="#">近期热门</a>
+                <a class="navbar-brand" style="font-size:15px;" href="#">评分最高</a>
+                <a class="navbar-brand" style="font-size:15px;" href="#">最新上线</a>
+                <a class="navbar-brand" style="font-size:15px;" href="#">影评最多</a>
+            </div>
+            <div id="area">
+                <h style="font-size:18px;margin-right:10px;">地区</h>
+                {% for country in countries %}
+                <a class="navbar-brand" style="font-size:15px;" href="{% url 'movies:country-search' country.id %}">{{ country }}</a>
+                {% endfor %}
+            </div>
+            <div id="type">
+                <h style="font-size:18px;margin-right:10px;">分类</h>
+                {% for genre in genres %}
+                <a class="navbar-brand" style="font-size:15px;" href="{% url 'movies:genre-search' genre.id %}">{{ genre }}</a>
+                {% endfor %}
+            </div>
+            <div>
+                <hr width="100%" color="#D0D0D0" style="margin-bottom:5px;margin-top:5px;" />
+            </div>
+            </div>
+        </div>
+</div>
+
+    <!-- Movies -->
+    {% include 'movies/movie_index_template.html' %}
+{% endblock %}

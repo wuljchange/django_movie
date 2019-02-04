@@ -1,0 +1,104 @@
+{% if movies %}
+    <div class="container">
+        <div id="movie-content">
+            {% if movies.paginator.count is 1 %}
+                <div class="container movie-count-1">
+                    <div class="card" style="width:13rem;height:290px;margin-right:auto;margin-left:auto;margin-top:20px;">
+                        <a href="{% url 'movies:movie-detail' movies.object_list.first.id %}">
+                            <img class="card-img-top" style="height:150px;" src="{{ movies.object_list.first.cover.url }}" title="{{ movies.object_list.first.title }}" alt="Card image cap">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'movies:movie-detail' movies.object_list.first.id %}">
+                                <h5 class="card-title">{{ movies.object_list.first.title }}</h5>
+                            </a>
+                            <p class="card-text new-card-text">导演：{{ movies.object_list.first.director.all.0 }}</p>
+                            <p class="card-text new-card-text">日期：{{ movies.object_list.first.year }}</p>
+                            <p class="card-text new-card-text">
+                                <span>主演：</span>
+                                {% if movies.object_list.first.key_actors.all.0 %}
+                                <span>{{ movies.object_list.first.key_actors.all.0 }}</span>
+                                {% endif %}
+                                {% if movies.object_list.first.key_actors.all.1 %}
+                                <span>/ {{ movies.object_list.first.key_actors.all.1 }}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+            <div class="container">
+                <!--<div class="card-columns" style="column-count:1;margin-left:10px;">-->
+                <div class="card-columns" style="column-count:5;">
+            {% for movie in movies %}
+                <div class="card" style="width:13rem;height:290px;margin-top:8px;">
+                        <a href="{% url 'movies:movie-detail' movie.id %}">
+                            <img class="card-img-top" style="height:150px;" src="{{ movie.cover.url }}" title="{{ movie.title }}" alt="Card image cap">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'movies:movie-detail' movie.id %}">
+                                <h5 class="card-title">{{ movie.title }}</h5>
+                            </a>
+                            <p class="card-text new-card-text">导演：{{ movie.director.all.0 }}</p>
+                            <p class="card-text new-card-text">日期：{{ movie.year }}</p>
+                            <p class="card-text new-card-text">
+                                <span>主演：</span>
+                                {% if movie.key_actors.all.0 %}
+                                <span>{{ movie.key_actors.all.0 }}</span>
+                                {% endif %}
+                                {% if movie.key_actors.all.1 %}
+                                <span>/ {{ movie.key_actors.all.1 }}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                </div>
+            {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div class="container" style="margin-top:100px;">
+        <h2 style="text-align:center;">抱歉，没有相关数据！</h2>
+    </div>
+{% endif %}
+
+<!-- Pagination -->
+{% if movies.has_other_pages %}
+<nav aria-label="page">
+    <ul class="pagination justify-content-center">
+        {% if movies.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ movies.previous_page_number }}" tabindex="-1">Prev</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Prev</a>
+        </li>
+        {% endif %}
+
+        {% for i in movies.paginator.page_range %}
+        {% if movies.number == i %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ i }}">{{ i }} <span class="sr-only">(current)</span></a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if movies.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ movies.next_page_number }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+

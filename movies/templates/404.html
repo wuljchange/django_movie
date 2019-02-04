@@ -1,0 +1,19 @@
+{% extends 'movies/base.html' %}
+
+{% block body %}
+    <div class="section section-fill-height text-center">
+        <div class="background-image"></div>
+        <div class="container">
+            <div class="col-md-12">
+
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+                <h1 class="display-3 pi-draggable pi-item text-danger text-center"
+                    style="color: #ff082a;; font-family: 'Boogaloo', cursive; font-size: 60px"><strong>Wrong page, fella</strong>
+                </h1>
+
+                <a href="{% url 'movies:index' %}" class="btn btn-success btn-lg m-y-lg">Home page</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

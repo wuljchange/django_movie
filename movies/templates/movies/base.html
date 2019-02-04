@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load js and css #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'movies/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/css/style.css' %}"/>
+</head>
+<body>
+    <!-- Header -->
+    <div id="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark base-header-nav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link base-font-size" href="{% url 'movies:index' %}">电影 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link base-font-size" href="/admin">后台</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link base-font-size" href="#">更多</a>
+                    </li>
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0">
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+                            <div class="dropdown-menu dropdown-menu-right base-drop" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item base-font-size" href="{% url 'movies:user-profile' request.user.id %}">个人主页</a>
+                                <a class="dropdown-item base-font-size" href="{% url 'movies:logout-user' %}">退出</a>
+                            </div>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link base-font-size" href="{% url 'movies:login-user' %}">登录 <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link base-font-size" href="{% url 'movies:register' %}">注册</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </form>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-light bg-light base-search">
+            <div class="base-position">
+                <div id="nav-search" class="form-inline">
+                    <div id="movie-logo" class="base-logo">
+                        <a class="nav-link" href="{% url 'movies:index' %}">
+                            <i class="fa fa-film fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <form method="get" action="{% url 'movies:simple-search' %}">
+                        <input class="form-control mr-sm-2 base-form" type="search" placeholder="搜索电影，影人" aria-label="Search" name="q">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!--<content>-->
+    <div id="wrapper" class="base-content">
+        {% block body %}
+        <!-- Code -->
+        {% endblock %}
+    </div>
+
+    <!--<footer>-->
+    <div id="footer">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container">
+                <hr width="100%" color="#D0D0D0" class="base-footer-h" />
+                <span class="navbar-text base-footer-s1" style="color:green;">@Mr.wu.movie.com</span>
+                <span class="navbar-text base-footer-s2"><a href="#">Suggestions for me,thanks!</a></span>
+            </div>
+        </nav>
+    </div>
+
+    <!--<script src="../static/movies/js/new-script.js"></script>-->
+    <script src="../static/movies/js/script.js"></script>
+</body>
+</html>

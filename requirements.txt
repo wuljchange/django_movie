@@ -1,0 +1,7 @@
+Django
+django-countries
+django-debug-toolbar
+django-import-export
+django-jet
+Pillow
+dj-static

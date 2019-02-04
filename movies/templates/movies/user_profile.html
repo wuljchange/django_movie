@@ -1,0 +1,48 @@
+{% extends 'movies/base.html' %}
+{% block title %}{{ user.username }} profile{% endblock %}
+
+{% block body %}
+    <div id="user-profile">
+        <div class="container">
+            <div id="user-image" class="user-profile-background">
+                <div class="user-profile-image">
+                    {% load static %}
+                    <img class="user-image" src="{% static 'movies/images/user-placeholder.png' %}">
+                    <div style="text-align:center;">{{ user.username }}</div>
+                </div>
+            </div>
+            <div style="margin-top:10px;" class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" id="stars" class="btn btn-success">
+                        <a href="#"><i class="fa fa-2x fa-fw fa-heart text-danger umbs-up"></i></a>
+                        <div class="hidden-xs">收藏</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="favorites" class="btn btn-default">
+                        <a href="#"><i class="fa fa-2x fa-fw fa-thumbs-up text-danger"></i></a>
+                        <div class="hidden-xs">喜欢</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="following" class="btn btn-default">
+                        <a href="#"><i class="fa fa-2x fa-fw fa-eye text-danger" aria-hidden="true"></i></a>
+                        <div class="hidden-xs">观看列表</div>
+                    </button>
+                </div>
+            </div>
+            <div id="tab-content" style="margin-top:20px;">
+                <div id="tab1" style="display:block;">
+                    {% include 'movies/movie_index_template.html' with movies=liked_movies %}
+                </div>
+                <div id="tab2" style="display:none;">
+                    {% include 'movies/movie_index_template.html' with movies=favourite_movies %}
+                </div>
+                <div id="tab3" style="display:none;">
+                    {% include 'movies/movie_index_template.html' with movies=watch_list %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
