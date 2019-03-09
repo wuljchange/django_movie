@@ -16,10 +16,10 @@
 ### git安装部署
     git clone https://github.com/wuljchange/django_movie.git
     pip3 install -r requirements.txt
-    python3 manage.py runserver 0.0.0.0:80
+    python3 manage.py runserver 0.0.0.0:8090
 ### docker部署
     docker login
-    docker run -d -p 80:80 wuljchange/django-movie:v1.0.0
+    docker run -d -p 8090:8090 wuljchange/django-movie:v1.0.0
 ### 效果图
 后续上传动态效果图
 ### 优化
@@ -29,4 +29,4 @@
 - wuljchange@outlook.com
 - wuljfly@icloud.com
 ### 感谢
-后端代码参考了https://github.com/VladKha/MovieNet.git，非常感谢。
+Reference program is https://github.com/VladKha/MovieNet.git and thank you very much!
