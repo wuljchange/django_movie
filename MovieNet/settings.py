@@ -13,7 +13,7 @@ SECRET_KEY = 'tuuy6wuvnwq*!*&j94yilqs(hq4pj+vcninkqgm3xk2ldl(zsb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # False on production
 
-ALLOWED_HOSTS = ["you-movie.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
