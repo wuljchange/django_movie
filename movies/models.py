@@ -7,11 +7,11 @@ from django.dispatch import receiver
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30, unique=True, verbose_name='类别')
 
     class Meta:
         db_table = 'genre'
-        verbose_name_plural = 'genres'
+        verbose_name_plural = '类别'
         ordering = ['name']
 
     def __str__(self):
@@ -19,11 +19,11 @@ class Genre(models.Model):
 
 
 class ProductionRole(models.Model):
-    title = models.CharField(max_length=30, unique=True)
+    title = models.CharField(max_length=30, unique=True, verbose_name='角色')
 
     class Meta:
         db_table = 'production_role'
-        verbose_name_plural = 'production role'
+        verbose_name_plural = '角色'
         ordering = ['title']
 
     def __str__(self):
@@ -31,12 +31,12 @@ class ProductionRole(models.Model):
 
 
 class Country(models.Model):
-    country = CountryField(unique=True)
-    country_zh = models.CharField(max_length=50, default='')
+    country = CountryField(unique=True, verbose_name='国家或地区(英文)')
+    country_zh = models.CharField(max_length=50, default='', verbose_name='国家或地区(中文)')
 
     class Meta:
         db_table = 'country'
-        verbose_name_plural = 'countries'
+        verbose_name_plural = '国家或地区'
         ordering = ['country']
 
     def __str__(self):
@@ -44,18 +44,20 @@ class Country(models.Model):
 
 
 class Person(models.Model):
-    first_name = models.CharField(max_length=30, default='')
-    last_name = models.CharField(max_length=30, default='')
-    full_name = models.CharField(max_length=60, default='')
-    date_of_birth = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.")
+    first_name = models.CharField(max_length=30, default='', verbose_name='名')
+    last_name = models.CharField(max_length=30, default='', verbose_name='姓')
+    full_name = models.CharField(max_length=60, default='', verbose_name='全名')
+    date_of_birth = models.DateField(help_text="Please use the following format: <em>YYYY-MM-DD</em>.", verbose_name='出生日期')
     date_of_death = models.DateField(
         null=True,
         blank=True,
-        help_text="Please use the following format: <em>YYYY-MM-DD</em>."
+        help_text="Please use the following format: <em>YYYY-MM-DD</em>.",
+        verbose_name='逝世日期'
     )
     photo = models.ImageField(
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='头像'
     )
 
     country = models.ForeignKey(
@@ -64,19 +66,19 @@ class Person(models.Model):
         null=True,
         blank=True,
         related_name='people',
-        verbose_name='represented country'
+        verbose_name='国家或地区'
     )
     production_roles = models.ManyToManyField(
         ProductionRole,
         blank=True,
         related_name='people',
-        verbose_name='role in movie production'
+        verbose_name='电影中的角色'
     )
-    description = models.CharField(max_length=1000, default='')
+    description = models.CharField(max_length=1000, default='', verbose_name='简介')
 
     class Meta:
         db_table = 'person'
-        verbose_name_plural = 'people'
+        verbose_name_plural = '人物'
         ordering = ['full_name']
 
     def __str__(self):
@@ -84,26 +86,30 @@ class Person(models.Model):
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, verbose_name='题目')
     year = models.IntegerField(
-        validators=[MinValueValidator(0)]
+        validators=[MinValueValidator(0)],
+        verbose_name='上映日期'
     )
     description = models.TextField(
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='简介'
     )
     rating = models.FloatField(
         default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(10)]
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+        verbose_name='评分'
     )
-    trailer = models.URLField()
-    cover = models.ImageField()
+    trailer = models.URLField(verbose_name='预告片地址')
+    cover = models.ImageField(verbose_name='电影封面')
     link_to_watch = models.URLField(
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='完整观看地址'
     )
-    date_added = models.DateField(auto_now_add=True)
-    duration = models.DurationField(help_text='Format HH:MM:SS')
+    date_added = models.DateField(auto_now_add=True, verbose_name='添加到后台日期')
+    duration = models.DurationField(help_text='Format HH:MM:SS', verbose_name='时长')
 
     likes = models.IntegerField(default=0, blank=True)
     favourites = models.IntegerField(default=0, blank=True)
@@ -114,29 +120,30 @@ class Movie(models.Model):
         blank=True,
         related_name='directed_movies',
         limit_choices_to={'production_roles': ProductionRole.objects.filter(title='导演').get().pk},
-        verbose_name='director'
+        verbose_name='导演'
     )
     production_countries = models.ManyToManyField(
         Country,
         related_name='movies',
-        verbose_name='production countries'
+        verbose_name='国家或地区'
     )
     genres = models.ManyToManyField(
         Genre,
         blank=True,
         related_name='movies',
-        verbose_name='genres'
+        verbose_name='类别'
     )
     key_actors = models.ManyToManyField(
         Person,
         blank=True,
         limit_choices_to={'production_roles': ProductionRole.objects.filter(title='演员').get().pk},
         related_name='acted_movies',
-        verbose_name='list of key actors',
+        verbose_name='主演',
     )
 
     class Meta:
         db_table = 'movie'
+        verbose_name_plural = '电影'
         ordering = ['-date_added']
 
     def __str__(self):
