@@ -1,15 +1,14 @@
-{% extends 'movies/base.html' %}
+{% extends 'movies/auth.html' %}
 {% block title %}Log In{% endblock %}
 
 {% block body %}
     <br><br><br><br>
     <div id="movie-login-in">
         <div class="container">
-            <div>
-                <div class="card login-card">
+                <div class="login-card bg-light">
                     <div class="new-center">
                         <div id="login-body">
-                        <h3>登录</h3>
+                        <h3 class="form-group">登录</h3>
                         {% if error_message %}
                             <div class="col-sx-12">
                                 <p class="text-danger col-sm-offset-2 col-sm-8">
@@ -20,30 +19,23 @@
                         <form role="form" action="{% url 'movies:login-user'%}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label class="control-label" for="id_username">Username:</label>
-                                <div>
-                                    <input id="id_username" maxlength="30" name="username" type="text">
-                                </div>
+                                <label class="control-label" for="id_username">用户名:</label>
+                                <input class="form-control" id="id_username" name="username" type="text">
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="id_password">Password:</label>
-                                <div>
-                                    <input id="id_password" maxlength="30" name="password" type="password">
-                                </div>
+                                <label class="control-label" for="id_password">密码:</label>
+                                <input class="form-control" id="id_password" name="password" type="password">
                             </div>
                             <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                </div>
+                                <button type="submit" class="btn btn-success form-control">登录</button>
                             </div>
                         </form>
                         </div>
-                        <div class="panel-footer">Don't have an account?
-                            <a href="{% url 'movies:register' %}">Click here</a> to register.
+                        <div class="panel-footer">没有账户?
+                            <a href="{% url 'movies:register' %}">点击这里</a> 注册
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

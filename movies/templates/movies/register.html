@@ -1,4 +1,4 @@
-{% extends 'movies/base.html' %}
+{% extends 'movies/auth.html' %}
 {% block title %}Register{% endblock %}
 
 {% block body %}
@@ -6,10 +6,10 @@
     <div id="register">
         <div class="container">
             <div>
-                <div class="card register-card">
+                <div class="login-card bg-light">
                     <div class="new-center">
                     <div id="register-body">
-                        <h3>注册账户</h3>
+                        <h3 class="form-group">注册账户</h3>
                         {% if error_message %}
                             <div class="col-sx-12">
                                 <p class="text-danger col-sm-offset-2 col-sm-8">
@@ -21,14 +21,12 @@
                             {% csrf_token %}
                             {% include 'movies/form_template.html' %}
                             <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                </div>
+                                <button type="submit" class="btn btn-success form-control">注册</button>
                             </div>
                         </form>
                     </div>
                     <div>
-                        Already have an account? <a href="{% url 'movies:login-user' %}">Click here</a> to log in.
+                        已经又一个账户? <a href="{% url 'movies:login-user' %}">点击这里</a> 登录
                     </div>
                     </div>
                 </div>
