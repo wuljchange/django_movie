@@ -31,6 +31,10 @@
 ![后台主页](screenshot/movie01.png "后台主页")
 - 后台添加电影
 ![后台添加电影](screenshot/movie02.png "后台添加电影")
+- 用户登录
+![用户登录](screenshot/movie-login.png "用户登录")
+- 用户注册
+![用户注册](screenshot/movie-register.png "用户注册")
 - 网站主页
 ![网站主页](screenshot/movie03.png "网站主页")
 - 电影详细页面
