@@ -47,8 +47,5 @@
 ![人物介绍](screenshot/movie07.png "人物介绍")
 
 ### 反馈
-- wuljchange@outlook.com
 - wuljfly@icloud.com
-
-### 感谢
-Reference program is https://github.com/VladKha/MovieNet.git and thank you very much!
+- 1473236447@qq.com
